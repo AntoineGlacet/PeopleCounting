@@ -80,15 +80,31 @@ notebooks/full
 !notebooks/full/.gitkeep
 
 # exclude data from source control by default
-/data
-/models
+# but keep data tree structure
+data/*
+!data/.gitkeep
 
-# keep data tree structure
+!data/dump
+data/dump/*
+!data/dump/.gitkeep
+
+!data/interim
+data/interim/*
 !data/interim/.gitkeep
+
+!data/processed
+data/processed/*
 !data/processed/.gitkeep
+
+!data/raw
+data/raw/*
 !data/raw/.gitkeep
+
+!data/secret
+data/secret/*
 !data/secret/.gitkeep
 
+models/*
 !models/.gitkeep
 
 # Mac OS-specific storage files
