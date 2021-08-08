@@ -86,7 +86,7 @@ def track_distance_and_features(
                 frame, 1 / 255.0, (416, 416), swapRB=True, crop=False
             )
             net.setInput(blob)
-            start = time.time()
+            # start = time.time()
             layerOutputs = net.forward(ln)
 
             # initialize our lists of detected bounding boxes, confidences,
@@ -261,18 +261,18 @@ def track_distance_and_features(
                     True,
                 )
 
-                end = time.time()
+                # end = time.time()
                 # some information on processing single frame
-                if total > 0:
-                    elap = end - start
-                    print(
-                        "[INFO] single frame took {:.4f} seconds".format(elap)
-                    )
-                    print(
-                        "[INFO] estimated total time to finish: {:.4f}".format(
-                            elap * total
-                        )
-                    )
+                # if total > 0:
+                #    elap = end - start
+                #    print(
+                #        "[INFO] single frame took {:.4f} seconds".format(elap)
+                #    )
+                #    print(
+                #        "[INFO] estimated total time to finish: {:.4f}".format(
+                #            elap * total
+                #        )
+                #    )
 
             if write:
                 # write the output frame to disk
