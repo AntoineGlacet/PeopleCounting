@@ -9,6 +9,12 @@ def divide_video(
     output_path: Path,
     cut_duration: int,
 ):
+    """
+    divide 'input_path' video file into videos of 'cut_duration' length.
+    write to 'output_path'+i+.mp4
+    returns first_frame, last_frame, output_path_list
+    """
+    output_path_list = []
     cap = cv2.VideoCapture(str(input_path))  # Get video (using absolute path)
     # cv2.videocapture The absolute path must be correct to read the video, use / instead of \
     if (
@@ -55,15 +61,23 @@ def divide_video(
             if success:
                 runpbar.update(1)
                 i += 1
+                if i == 1:
+                    first_frame = frame
+                if i == FrameNumber:
+                    last_frame = frame
                 if (
                     i % (cut_duration * fps) == 1
                 ):  # Save a small video every 'duration' seconds, each second of the video has fps frames
                     # cap.read()Read the video frame by frame, every time a frame is read, i is +1,
                     # When the number of frames read can divide the number of frames of each small video, then save the video
-                    videoWriter = cv2.VideoWriter(
+                    output_path_video = Path(
                         str(output_path)
-                        + str(i // (cut_duration * fps))
-                        + ".mp4",
+                        + str((i // (cut_duration * fps)) + 1)
+                        + ".mp4"
+                    )
+                    output_path_list.append(output_path_video)
+                    videoWriter = cv2.VideoWriter(
+                        str(output_path_video),
                         cv2.VideoWriter_fourcc(*"mp4v"),
                         fps,
                         (int(width), int(height)),
@@ -74,7 +88,12 @@ def divide_video(
                 else:
                     videoWriter.write(frame)
             else:
-                print("done dividing into {} files".format(i))
+                print(
+                    "done dividing into {} files".format(
+                        str((i // (cut_duration * fps)) + 1)
+                    )
+                )
                 break
 
     cap.release()  # Release video file
+    return first_frame, last_frame, output_path_list
